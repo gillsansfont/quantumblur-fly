@@ -1,4 +1,5 @@
 flask
 flask-cors
 pillow
+gunicorn
 git+https://github.com/qiskit-community/QuantumBlur.git
