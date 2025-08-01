@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for quantumblur-fly-gkktxq on 2025-08-01T21:53:23Z
+# fly.toml app configuration file generated for quantumblur-fly-j47zzw on 2025-08-01T22:19:57Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'quantumblur-fly-gkktxq'
+app = 'quantumblur-fly-j47zzw'
 primary_region = 'fra'
 
 [build]
