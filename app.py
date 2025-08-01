@@ -1,21 +1,21 @@
-# at top of app.py
 from flask import Flask, request, jsonify
-from flask_cors import CORS       # ← add this
+from flask_cors import CORS
 from PIL import Image
 import io, base64
-from quantumblur import QuantumBlur
+import quantumblur
 
 app = Flask(__name__)
-CORS(app)                         # ← and this
-
-blur_engine = QuantumBlur()
+CORS(app)
 
 @app.route('/quantumblur', methods=['POST'])
-def quantum_blur():
-    file = request.files['image']
-    image = Image.open(file.stream)
-    blurred = blur_engine(image)
-    buffer = io.BytesIO()
-    blurred.save(buffer, format="PNG")
-    img_str = base64.b64encode(buffer.getvalue()).decode()
-    return jsonify({'image': f'data:image/png;base64,{img_str}'})
+def blur_frame():
+    header, data = request.json['image'].split(',', 1)
+    img = Image.open(io.BytesIO(base64.b64decode(data)))
+    out = quantumblur.quantum_blur(img)
+    buf = io.BytesIO()
+    out.save(buf, format='PNG')
+    b64 = base64.b64encode(buf.getvalue()).decode('ascii')
+    return jsonify({ 'image': f'data:image/png;base64,{b64}' })
+
+if __name__ == '__main__':
+    app.run(port=5000)
